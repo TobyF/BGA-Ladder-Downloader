@@ -3,4 +3,10 @@
 {% block content %}
     <h1>{% block title %} Downloader {% endblock %}</h1>
     <p> Downloader stuff here:</p>
+
+    <form action="/data" method = "POST">
+    <p>Name <input type = "text" name = "Name" /></p>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
+
 {% endblock %}
