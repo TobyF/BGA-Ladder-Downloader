@@ -2,10 +2,10 @@
 
 {% block content %}
     <h1>{% block title %} Downloader {% endblock %}</h1>
-    <p> Downloader stuff here:</p>
+    <p> Will currently only download 2022 flights:</p>
 
     <form action="/data" method = "POST">
-    <p>Name <input type = "text" name = "Name" /></p>
+    <p>Pilot ID <input type = "text" name = "pilot_id" /></p>
     <p><input type = "submit" value = "Submit" /></p>
 </form>
 
