@@ -5,8 +5,15 @@
     <p> Will currently only download 2022 flights:</p>
 
     <form action="/data" method = "POST">
-    <p>Pilot ID <input type = "text" name = "pilot_id" /></p>
+    <!-- <p>Pilot ID <input type = "text" name = "pilot_id" /></p> -->
+    <p>Pilot Name <select name = "pilot_id">
+      {% for name in names %}
+        <option value="{{ name['ID'] }}">{{ name['Name'] }}</option>
+      {% endfor %}
+    </select></p>
+    <p>Start Year <input type="number" min="1980" max="2022" step="1" value="2000" name = "start_year" /></p>
+    <p>End Year <input type="number" min="1980" max="2022" step="1" value="2022" name = "end_year" /></p>
     <p><input type = "submit" value = "Submit" /></p>
-</form>
+    </form>
 
 {% endblock %}

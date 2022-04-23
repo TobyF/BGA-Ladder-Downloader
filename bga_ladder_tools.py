@@ -20,6 +20,12 @@ def make_archive(source, destination):
 def get_pilot_id(name):
     pass
 
+def get_names():
+    query_url = f"https://bgaladder.net/API/pilots"
+    page = requests.get(query_url)
+    page_json = json.loads(page.content)
+    return page_json
+
 def get_flight_ids(pilot_id,start_year=2022,end_year=2022):
     flightIDs = []
     for year in range(start_year,end_year+1):
@@ -62,6 +68,8 @@ def get_and_zip_igcs(flight_ids,tmpdir):
 
 if __name__ == '__main__':
     print("Testing...")
+    print("Getting Names:")
+    print(get_names())
     #print('Flight IDs :')
     #print(get_flight_ids(3851))
     print('Downloading IGC file:')
