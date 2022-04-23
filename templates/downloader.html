@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Downloader {% endblock %}</h1>
-    <p> Will currently only download 2022 flights:</p>
+    <h1>{% block title %} BGA Flights Downloader {% endblock %}</h1>
+    <p> Should download every flight on the BGA Ladder with you as the pilot between the date range. Could take as much as 5 mins to download, so sit tight and enjoy :)</p>
 
     <form action="/data" method = "POST">
     <!-- <p>Pilot ID <input type = "text" name = "pilot_id" /></p> -->
@@ -11,9 +11,9 @@
         <option value="{{ name['ID'] }}">{{ name['Name'] }}</option>
       {% endfor %}
     </select></p>
-    <p>Start Year <input type="number" min="1980" max="2022" step="1" value="2000" name = "start_year" /></p>
-    <p>End Year <input type="number" min="1980" max="2022" step="1" value="2022" name = "end_year" /></p>
-    <p><input type = "submit" value = "Submit" /></p>
+    <p>Start Year <input type="number" min="2007" max="2022" step="1" value="2007" name = "start_year" /></p>
+    <p>End Year <input type="number" min="2007" max="2022" step="1" value="2022" name = "end_year" /></p>
+    <p><input type = "submit" value = "Download" /></p>
     </form>
 
 {% endblock %}
