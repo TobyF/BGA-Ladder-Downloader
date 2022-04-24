@@ -7,15 +7,7 @@ import shutil
 import os
 import zipfile
 import io
-
-def make_archive(source, destination):
-        base = os.path.basename(destination)
-        name = base.split('.')[0]
-        format = base.split('.')[1]
-        archive_from = os.path.dirname(source)
-        archive_to = os.path.basename(source.strip(os.sep))
-        shutil.make_archive(name, format, archive_from, archive_to)
-        shutil.move('%s.%s'%(name,format), destination)
+import concurrent.futures
 
 def get_pilot_id(name):
     pass
@@ -50,13 +42,20 @@ def download_igc_file(flight_id, dir):
     with open(os.path.join(dir,fname), 'wb') as f:
         f.write(r.content)
 
-def get_and_zip_igcs(flight_ids,tmpdir):
+def get_and_zip_igcs(flight_ids,tmpdir,multithreading=True):
     base_path = os.path.join(tmpdir,'flights')
     os.makedirs(base_path)
     print(base_path)
-    for flight_id in flight_ids:
-        download_igc_file(flight_id, base_path)
-    #make_archive(os.path.join(tmpdir,'flights'), os.path.join(tmpdir,'ladder_flights.zip'))
+
+    if multithreading:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = []
+            for flight_id in flight_ids:
+                futures.append(executor.submit(download_igc_file,flight_id=flight_id, dir=base_path))
+    else:
+        for flight_id in flight_ids:
+            download_igc_file(flight_id=flight_id, dir=base_path)
+
 
     data = io.BytesIO()
     with zipfile.ZipFile(data, mode='w') as z:
