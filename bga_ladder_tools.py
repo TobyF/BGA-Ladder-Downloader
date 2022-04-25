@@ -30,18 +30,18 @@ def get_flight_ids(pilot_id,start_year=2022,end_year=2022):
 
 def download_igc_file(flight_id, dir):
     url = f'http://bgaladder.net/FlightIGC/{flight_id}'
+
     r = requests.get(url, allow_redirects=True)
     try:
         d = r.headers['content-disposition']
         fname = ((re.findall("filename=(.+)", d)[0]).split(';')[0]).strip('"') #extracts filename, likely dodgy.
     except KeyError:
         fname=f"{flight_id}.igc"
-    print(fname)
-    print(dir)
-    print(os.path.join(dir,fname))
+
+    print(f'Downloading flight with ID {flight_id} and filename: {fname}')
     with open(os.path.join(dir,fname), 'wb') as f:
         f.write(r.content)
-
+        
 def get_and_zip_igcs(flight_ids,tmpdir,multithreading=True):
     base_path = os.path.join(tmpdir,'flights')
     os.makedirs(base_path)
@@ -67,18 +67,20 @@ def get_and_zip_igcs(flight_ids,tmpdir,multithreading=True):
 
 if __name__ == '__main__':
     print("Testing...")
-    print("Getting Names:")
-    print(get_names())
-    #print('Flight IDs :')
-    #print(get_flight_ids(3851))
-    print('Downloading IGC file:')
-    #download_igc_file(66505, 'test_data')
-
-
     dir = os.path.join(os.getcwd(),'test_data')
     print(f"Making a test directory: {dir}")
     if os.path.exists(dir):
         shutil.rmtree(dir)
     os.makedirs(dir)
+
+    print("Getting Names:")
+    print(get_names())
+    print('Getting Flight IDs :')
+    print(get_flight_ids(3851))
+    print('Downloading IGC file 66505:')
+    download_igc_file(66505, 'test_data')
+
+    print("Testing get_and_zip_igcs in test_data directory")
+
 
     print(get_and_zip_igcs(get_flight_ids(3851),dir))
